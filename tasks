@@ -1,0 +1,32 @@
+// Вывести список сотрудников, получающих максимальную заработную плату в своем отделе
+SELECT * 
+FROM Employee AS max_wage_employees 
+WHERE Salary=(SELECT.Max(Salary) 
+FROM Employee AS max_wage 
+WHERE max_wage_employees.department_id=max_wage.department_id);
+
+// Вывести список ID отделов, количество сотрудников в которых не превышает 3 человек
+SELECT Department_id 
+FROM Employee
+GROUP BY Department_id 
+HAVING COUNT(Department_id)<=3;
+
+// Добавить в БД новый отдел
+INSERT INTO Department VALUES (1253, ‘hr’);
+
+// Добавить в новый отдел троих новых сотрудников и одного руководителя (с учетом заполнения всех полей)
+INSERT INTO Employee VALUES 
+  (7711, 1253, NULL, ‘Иванов’, 50000), 
+  (7712, 1253, NULL, ‘Петров’, 50000), 
+  (7713, 1253, NULL, ‘Сидоров’, 50000),
+  (7714, 1253, 77144, ‘Кузнецов’, 100000);
+
+// Удалить отдел и всех сотрудников, привязанных к этому отделу
+DELETE FROM Employee WHERE Department_id=1253;
+
+DELETE FROM Department 
+WHERE id=1253;
+
+// Обновить ID любого отдела так, чтобы “не потерять” работающих в нем сотрудников
+UPDATE Department SET id=1555 
+WHERE name=”hr”;
